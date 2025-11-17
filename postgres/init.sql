@@ -1,0 +1,29 @@
+CREATE TABLE users (
+    id SERIAL PRIMARY KEY,
+    username VARCHAR(255) NOT NULL UNIQUE,
+    password VARCHAR(255) NOT NULL,
+    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE folders (
+    id SERIAL PRIMARY KEY,
+    user_id INTEGER NOT NULL,
+    parent_id INTEGER,
+    name VARCHAR(255) NOT NULL,
+    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES users(id),
+    FOREIGN KEY (parent_id) REFERENCES folders(id)
+);
+
+CREATE TABLE files (
+    id SERIAL PRIMARY KEY,
+    user_id INTEGER NOT NULL,
+    folder_id INTEGER,
+    name VARCHAR(255) NOT NULL,
+    path VARCHAR(255) NOT NULL,
+    size BIGINT NOT NULL,
+    type VARCHAR(255) NOT NULL,
+    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES users(id),
+    FOREIGN KEY (folder_id) REFERENCES folders(id)
+);
