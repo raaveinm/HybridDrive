@@ -13,7 +13,7 @@ if (!isset($_FILES['file'])) {
     exit();
 }
 
-require_once '../core/db.php';
+require_once '/var/www/html/core/db.php';
 
 $user_id = $_SESSION['user_id'];
 $file = $_FILES['file'];

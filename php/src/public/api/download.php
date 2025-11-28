@@ -13,6 +13,24 @@ if (!isset($_GET['file_id'])) {
     exit();
 }
 
+/**
+ * @return array
+ */
+function db_init_()
+{
+    require_once '/var/www/html/core/db.php';
+
+    $user_id = $_SESSION['user_id'];
+    $file_id = $_GET['file_id'];
+
+    $db = (new Database())->getConnection();
+    $stmt = $db->prepare("SELECT * FROM files WHERE id = ? AND user_id = ?");
+    $stmt->execute([$file_id, $user_id]);
+
+    $file = $stmt->fetch(PDO::FETCH_ASSOC);
+    return array($file_id, $db, $stmt, $file);
+}
+
 list($file_id, $db, $stmt, $file) = db_init_();
 
 if ($file) {

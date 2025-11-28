@@ -25,7 +25,7 @@ services:
     build:
       context: ./postgres
     environment:
-      POSTGRES_DB: mydatabase
+      POSTGRES_DB: hybriddrive
       POSTGRES_USER: user
       POSTGRES_PASSWORD: password
     ports:

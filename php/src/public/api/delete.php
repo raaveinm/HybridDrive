@@ -20,7 +20,7 @@ if (!isset($_GET['file_id'])) {
  */
 function db_init_()
 {
-    require_once '../core/db.php';
+    require_once '/var/www/html/core/db.php';
 
     $user_id = $_SESSION['user_id'];
     $file_id = $_GET['file_id'];

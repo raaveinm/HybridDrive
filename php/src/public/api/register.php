@@ -1,7 +1,7 @@
 <?php
 
-require_once '../core/User.php';
-require_once '../core/db.php';
+require_once '/var/www/html/core/User.php';
+require_once '/var/www/html/core/db.php';
 
 header("Content-Type: application/json");
 
