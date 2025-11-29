@@ -6,3 +6,5 @@ RUN apt-get update && apt-get install -y libpq-dev \
 
 # Set working directory
 WORKDIR /var/www/html
+
+COPY uploads.ini /usr/local/etc/php/conf.d/uploads.ini

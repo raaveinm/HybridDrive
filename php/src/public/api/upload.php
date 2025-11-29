@@ -20,7 +20,17 @@ $file = $_FILES['file'];
 
 $upload_dir = "/var/www/html/uploads/" . $user_id;
 if (!file_exists($upload_dir)) {
-    mkdir($upload_dir, 0777, true);
+    if (!mkdir($upload_dir, 0777, true)) {
+        http_response_code(500);
+        echo json_encode(["message" => "Failed to create upload directory."]);
+        exit();
+    }
+}
+
+if (!is_writable($upload_dir)) {
+    http_response_code(500);
+    echo json_encode(["message" => "Upload directory is not writable."]);
+    exit();
 }
 
 $file_path = $upload_dir . "/" . basename($file['name']);
@@ -32,10 +42,13 @@ if (move_uploaded_file($file['tmp_name'], $file_path)) {
         http_response_code(201);
         echo json_encode(["message" => "File was successfully uploaded."]);
     } else {
+        // Clean up the uploaded file if the database insert fails
+        unlink($file_path);
         http_response_code(500);
         echo json_encode(["message" => "Unable to save file information to the database."]);
     }
 } else {
     http_response_code(500);
-    echo json_encode(["message" => "Unable to upload the file."]);
+    $error = error_get_last();
+    echo json_encode(["message" => "Unable to upload the file. Error: " . ($error['message'] ?? 'Unknown error')]);
 }

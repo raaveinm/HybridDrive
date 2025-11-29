@@ -13,6 +13,12 @@ if (!isset($_GET['file_id'])) {
     exit();
 }
 
+if (!filter_var($_GET['file_id'], FILTER_VALIDATE_INT)) {
+    http_response_code(400);
+    echo "Invalid File ID.";
+    exit();
+}
+
 /**
  * @return array
  */

@@ -15,10 +15,16 @@ if (!isset($_GET['file_id'])) {
     exit();
 }
 
+if (!filter_var($_GET['file_id'], FILTER_VALIDATE_INT)) {
+    http_response_code(400);
+    echo json_encode(["message" => "Invalid File ID."]);
+    exit();
+}
+
 /**
  * @return array
  */
-function db_init_()
+function db_init_(): array
 {
     require_once '/var/www/html/core/db.php';
 
